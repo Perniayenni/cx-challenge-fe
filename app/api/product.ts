@@ -20,3 +20,11 @@ export class Product {
       public free_shipping: boolean
     ) {}
   }
+
+export class AvailableSort {
+    constructor(
+        public id: string,
+        public name: string,
+        public active: boolean
+    ){}  
+}

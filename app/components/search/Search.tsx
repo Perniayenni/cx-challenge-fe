@@ -19,7 +19,7 @@ const Search: FC = () => {
         value={query}
         onKeyDown={enterPressed.bind(this)}
       ></input>
-      <button className={searchStyle.search__button}  onClick={searching} >
+      <button className={searchStyle.search__button}  onClick={()=>searching(false)} >
         <FontAwesomeIcon className={searchStyle.search__icon} icon={faSearch} />
       </button>
     </div>

@@ -8,6 +8,7 @@ export const actions = {
 export type ActionType = 
 |  { type: 'isPendingFetchProducts' }
 |  { type: 'isReadyFetchProducts', payload: any }
+|  { type: 'setAvailableSort', payload: any}
 
 export const Reducer = (state: State, action:ActionType ): State => {
     switch (action.type) {
@@ -25,7 +26,14 @@ export const Reducer = (state: State, action:ActionType ): State => {
                 loading: false,
                 products
             }
-        
+        case 'setAvailableSort':
+            const {
+                availableSorts
+            } = action.payload;
+            return {
+                ...state,
+                availableSorts
+            }
         default:
             return state;
     }

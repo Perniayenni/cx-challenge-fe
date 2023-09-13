@@ -41,9 +41,9 @@ describe('SearchResults', () => {
     axios.get.mockResolvedValue(mockResponse);
    
     await searchResults.fetchResults();
-    expect(searchResults.getResults()).toHaveLength(1);
-    expect(searchResults.getResults()[0]).toBeInstanceOf(Product);
-    expect(searchResults.getResults()[0].id).toBe('1');
+    expect(searchResults.getProducts()).toHaveLength(1);
+    expect(searchResults.getProducts()[0]).toBeInstanceOf(Product);
+    expect(searchResults.getProducts()[0].id).toBe('1');
   });
 
   it('handles error when fetching results', async () => {

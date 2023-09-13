@@ -1,25 +1,31 @@
 
 import axios from 'axios';
-import { Product } from './product';
+import { AvailableSort, Product } from './product';
+const BASE_URL = 'sites/MLA/search'
 
 export class SearchResults {
-  private results: Product[] = [];
+  private products: Product[] = [];
+  private availableSort : AvailableSort[] = []
 
-  constructor(private searchText: string) {}
+  constructor(
+    private searchText: string,
+    private sort:string = 'relevance'
+    ) {
+
+    }
 
   async fetchResults() {
     try {
-      const apiUrl = `https://api.mercadolibre.com/sites/MLA/search?q=${this.searchText}&limit=10`;
+      const apiUrl = `https://api.mercadolibre.com/sites/MLA/search?q=${this.searchText}&sort=${this.sort}&limit=10`;
       const response = await axios.get(apiUrl);
 
-      this.results = response.data.results.map((item: any) => {
-        // Mapea los datos a la clase Product
+      this.products = response.data.results.map((item: any) => {
         return new Product(
           item.id,
           item.title,
           {
             currency: item.currency_id,
-            amount: item.price.toString(),
+            amount: item.price?.toString(),
             decimals: 2,
           },
           {
@@ -32,15 +38,30 @@ export class SearchResults {
           },
           item.thumbnail,
           item.condition,
-          item.shipping.free_shipping
+          item.shipping?.free_shipping
         );
       });
+      const sorts = [response.data.sort, ...response.data.available_sorts] 
+      this.availableSort = sorts.map((item: any, index:number)=>{
+        const active = item.id === response.data.sort.id
+        return new AvailableSort(
+            item.id,
+            item.name,
+            active
+        );
+      })
+      
+
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   }
 
-  getResults() {
-    return this.results;
+  getProducts() {
+    return this.products;
+  }
+
+  getAvailableSorts(){
+    return this.availableSort;
   }
 }

@@ -1,43 +1,32 @@
-import { SearchResults } from "@/api/searchResults";
-import { Context } from "@/context/product";
+import { useEffect, useRef, useState } from "react";
+import { useFetchResults } from "@/hooks/useFetchResults";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useRef, useState } from "react";
 
 export const useSearch = () => {
-    const {dispatch} = useContext(Context);
-    const newQuery = useRef('')
     const router = useRouter()
-    const { search = '' } = router.query;
+    const { search = '', sort= '' } = router.query;
     const [query, setQuery] = useState<string>(typeof search === 'string' ? search : '')
+    const {fetchResults} = useFetchResults();
 
     useEffect(() => {
         if (search && typeof search === 'string') {
             setQuery(search);
-            newQuery.current = search
-            searcResult()
+            fetchResults(search, sort)
         }
     }, [search]);
 
-    const searching = () => {
-      router.push(`/items?search=${encodeURIComponent(query)}`);
-    }
-
-    const searcResult = () => {
-        const queryTosend = newQuery.current == query ? query : newQuery.current
-        if (queryTosend.trim() !== '') {
-            const search = new SearchResults(queryTosend);
-            dispatch({ type: 'isPendingFetchProducts' })
-            search.fetchResults().then(() => {
-                dispatch({ type: 'isReadyFetchProducts', payload: { products: search.getResults() }})
-            });
-           
+    const searching = (fromUrl:boolean=true) => {
+        if(sort && typeof sort === 'string' && fromUrl){
+            router.push(`/items?search=${encodeURIComponent(query)}&sort=${encodeURIComponent(sort)}`);
+        }else {
+            router.push(`/items?search=${encodeURIComponent(query)}`);
         }
     }
 
     const enterPressed = (e:any) =>{
         var code = e.keyCode || e.which;
         if (code === 13) {
-        searching();
+        searching(false);
         }
     }
 

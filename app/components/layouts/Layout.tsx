@@ -4,7 +4,9 @@ import layouts from 'styles/layouts.module.scss';
 import Navbar from '../navbar/Navbar';
 import { Context } from '@/context/product';
 import { useLayout } from './useLayout';
-import { CircularIndeterminate } from '../CircularIndeterminate';
+import { CircularIndeterminate } from '../circularIndeterminate';
+import { AvailableSort } from '../availableSort/availableSort';
+
 
 interface Props {
     title?: string;
@@ -20,6 +22,7 @@ export const Layout:FC<Props> = ({ title= 'meli', children }) => {
                 <title>{ title }</title>
             </Head>
             <Navbar />
+            <AvailableSort/>
             {!loading ? children : <CircularIndeterminate />}
         </div>
     )

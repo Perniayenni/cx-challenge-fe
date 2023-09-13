@@ -16,10 +16,6 @@
     outline: none;
 }
 
-/* input::placeholder {
-    color: #8d8e8e;
-} */
-
 .search__icon {
     color: #585858;
     font-size: 15px;
@@ -36,4 +32,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }

@@ -1,14 +1,11 @@
 import React from 'react'
-
-import { Item } from '@/components/item/item';
+import { useItems } from '@/hooks/useItems'
+import { Item } from '@/components/item/item'
 import { Layout } from '@/components/layouts'
-import { Product } from '@/interfaces/product'
 import { Paper } from '@mui/material'
 
-import itemsStyle from 'styles/items.module.scss';
-import { useItems } from '@/hooks/useItems';
-
-
+import itemsStyle from 'styles/items.module.scss'
+        
 const ItemsPages = () => {
   const {products:items} = useItems()
   

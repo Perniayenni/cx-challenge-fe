@@ -1,15 +1,18 @@
 import { Product } from "@/interfaces/product";
 import { FC, useReducer, PropsWithChildren } from 'react';
 import { Context, Reducer } from "./";
+import { AvailableSort } from "@/interfaces/availableSort";
 
 export interface State {
     products: Array<Product>;
-    loading: boolean
+    loading: boolean,
+    availableSorts: Array<AvailableSort>;
 }
 
 export const INITIAL_STATE: State = {
     products: [] as Product[],
-    loading: false
+    loading: false,
+    availableSorts: [] as AvailableSort[]
 }
 
 export const Provider:FC <PropsWithChildren>= ({ children }) => {
