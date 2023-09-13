@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { SearchResults } from './searchResults';
-import { Product } from './product';
+import { Product, AvailableSort } from './product';
+
 
 jest.mock('axios');
 
@@ -36,6 +37,20 @@ describe('SearchResults', () => {
             },
           },
         ],
+        sort: {
+          "id": "price_desc",
+          "name": "Mayor precio"
+        },
+        available_sorts: [
+          {
+            "id": "relevance",
+            "name": "Más relevantes"
+          },
+          {
+            "id": "price_asc",
+            "name": "Menor precio"
+          }
+        ],
       },
     };
     axios.get.mockResolvedValue(mockResponse);
@@ -43,6 +58,7 @@ describe('SearchResults', () => {
     await searchResults.fetchResults();
     expect(searchResults.getProducts()).toHaveLength(1);
     expect(searchResults.getProducts()[0]).toBeInstanceOf(Product);
+    expect(searchResults.getAvailableSorts()[0]).toBeInstanceOf(AvailableSort);
     expect(searchResults.getProducts()[0].id).toBe('1');
   });
 
