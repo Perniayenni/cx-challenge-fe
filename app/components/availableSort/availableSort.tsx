@@ -1,7 +1,9 @@
 import React, { FC } from 'react'
-import { OptionsSort } from './optionsSort'
-import availableSortStyle from 'styles/available_sort.module.scss';
+
+import availableSortStyle from 'styles/available_sort.module.scss'
 import { useAvailableSort } from './useAvailableSort';
+import { OptionsSort } from './OptionsSort';
+
 
 export const AvailableSort: FC = () => {
   const { availableSorts, open, setOpen, searching } = useAvailableSort()

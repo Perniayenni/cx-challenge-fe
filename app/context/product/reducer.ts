@@ -2,13 +2,16 @@ import { State } from "./provider";
 
 export const actions = {
     isPendingFetchProducts: "isPendingFetchProducts",
-    isReadyFetchProducts: "isReadyFetchProducts"
+    isReadyFetchProducts: "isReadyFetchProducts",
+    setAvailableSort: "setAvailableSort",
+    setFilterByprice: "setFilterByprice"
 };
 
 export type ActionType = 
 |  { type: 'isPendingFetchProducts' }
 |  { type: 'isReadyFetchProducts', payload: any }
 |  { type: 'setAvailableSort', payload: any}
+|  { type: 'setFilterByprice', payload: any}
 
 export const Reducer = (state: State, action:ActionType ): State => {
     switch (action.type) {
@@ -33,6 +36,14 @@ export const Reducer = (state: State, action:ActionType ): State => {
             return {
                 ...state,
                 availableSorts
+            }
+        case 'setFilterByprice':
+            const {
+                filterByPrices
+            } = action.payload;
+            return {
+                ...state,
+                filterByPrices
             }
         default:
             return state;

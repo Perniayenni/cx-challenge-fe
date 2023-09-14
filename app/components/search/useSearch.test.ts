@@ -9,16 +9,6 @@ import { act, renderHook } from "@testing-library/react-hooks";
     }),
   }));
 
- 
-  
-  jest.mock('@/hooks/useFetchResults', ()=>({
-    useFetchResults: ()=>({
-        fetchResults: jest.fn()
-    })
-  }))
-  
- 
-
   describe('useSearch', () => {
     it('It should return all variables by default', () => {
         const { result } =  renderHook(()=> useSearch())

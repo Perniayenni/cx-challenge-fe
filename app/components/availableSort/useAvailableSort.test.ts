@@ -10,12 +10,6 @@ import { useAvailableSort } from "./useAvailableSort";
       query: { search: 'iphone' }
     }),
   }));
- 
-  jest.mock('@/hooks/useFetchResults', ()=>({
-    useFetchResults: ()=>({
-        fetchResults: jest.fn()
-    })
-  }))
   
   describe('useAvailableSort.', () => {
     it('It should return all variables by default', () => {

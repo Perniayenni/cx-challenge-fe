@@ -5,9 +5,11 @@ import { Layout } from '@/components/layouts'
 import { Paper } from '@mui/material'
 
 import itemsStyle from 'styles/items.module.scss'
+import { useFetchResults } from '@/hooks/useFetchResults'
         
 const ItemsPages = () => {
   const {products:items} = useItems()
+  useFetchResults()
   
   return (
     <Layout>

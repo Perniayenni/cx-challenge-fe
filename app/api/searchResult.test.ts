@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { SearchResults } from './searchResults';
-import { Product, AvailableSort } from './product';
-
+import { Product, AvailableSort, FilterByPrice } from './product';
 
 jest.mock('axios');
 
@@ -51,6 +50,30 @@ describe('SearchResults', () => {
             "name": "Menor precio"
           }
         ],
+        available_filters: [
+          {
+            "id": "price",
+            "name": "Precio",
+            "type": "range",
+            "values": [
+              {
+                "id": "*-100000.0",
+                "name": "Hasta $ 100.000",
+                "results": 3120
+              },
+              {
+                "id": "100000.0-300000.0",
+                "name": "$100.000 a $300.000",
+                "results": 3727
+              },
+              {
+                "id": "300000.0-*",
+                "name": "Más de $300.000",
+                "results": 3492
+              }
+            ]
+          },
+        ]
       },
     };
     axios.get.mockResolvedValue(mockResponse);
@@ -59,6 +82,7 @@ describe('SearchResults', () => {
     expect(searchResults.getProducts()).toHaveLength(1);
     expect(searchResults.getProducts()[0]).toBeInstanceOf(Product);
     expect(searchResults.getAvailableSorts()[0]).toBeInstanceOf(AvailableSort);
+    expect(searchResults.getFilterByPrice()[0]).toBeInstanceOf(FilterByPrice);
     expect(searchResults.getProducts()[0].id).toBe('1');
   });
 

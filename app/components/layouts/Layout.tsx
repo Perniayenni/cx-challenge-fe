@@ -1,12 +1,11 @@
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
 import Head from 'next/head';
 import layouts from 'styles/layouts.module.scss';
 import Navbar from '../navbar/Navbar';
-import { Context } from '@/context/product';
 import { useLayout } from './useLayout';
 import { CircularIndeterminate } from '../circularIndeterminate';
-import { AvailableSort } from '../availableSort/availableSort';
-
+import { AvailableSort } from '../availableSort/AvailableSort';
+import { FilterByPrice } from '../filterByPrice/FilterByPrice';
 
 interface Props {
     title?: string;
@@ -23,7 +22,12 @@ export const Layout:FC<Props> = ({ title= 'meli', children }) => {
             </Head>
             <Navbar />
             <AvailableSort/>
-            {!loading ? children : <CircularIndeterminate />}
+            {!loading ? 
+                <div className={layouts.layout__content}>
+                    <div className={layouts.layout__filters}><FilterByPrice /></div>
+                    <div className={layouts.layout__children}>{children}</div>
+                </div> 
+                : <CircularIndeterminate />}
         </div>
     )
 };

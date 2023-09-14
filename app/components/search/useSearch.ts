@@ -1,21 +1,20 @@
-import { useEffect, useRef, useState } from "react";
-import { useFetchResults } from "@/hooks/useFetchResults";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 export const useSearch = () => {
     const router = useRouter()
-    const { search = '', sort= '' } = router.query;
+    const { search = '', sort= '', price } = router.query;
     const [query, setQuery] = useState<string>(typeof search === 'string' ? search : '')
-    const {fetchResults} = useFetchResults();
+
 
     useEffect(() => {
         if (search && typeof search === 'string') {
             setQuery(search);
-            fetchResults(search, sort)
         }
     }, [search]);
 
     const searching = (fromUrl:boolean=true) => {
+       
         if(sort && typeof sort === 'string' && fromUrl){
             router.push(`/items?search=${encodeURIComponent(query)}&sort=${encodeURIComponent(sort)}`);
         }else {
@@ -35,5 +34,5 @@ export const useSearch = () => {
         setQuery,
         searching,
         enterPressed
-    };
+    }
 };

@@ -1,22 +1,24 @@
 
 import axios from 'axios';
-import { AvailableSort, Product } from './product';
+import { AvailableSort, FilterByPrice, Product } from './product';
 const BASE_URL = 'sites/MLA/search'
 
 export class SearchResults {
   private products: Product[] = [];
   private availableSort : AvailableSort[] = []
+  private filterByPrice: FilterByPrice[] = []
 
   constructor(
     private searchText: string,
-    private sort:string = 'relevance'
+    private sort:string = 'relevance',
+    private price:string = ''
     ) {
 
     }
 
   async fetchResults() {
     try {
-      const apiUrl = `https://api.mercadolibre.com/sites/MLA/search?q=${this.searchText}&sort=${this.sort}&limit=10`;
+      const apiUrl = `https://api.mercadolibre.com/sites/MLA/search?q=${this.searchText}&sort=${this.sort}&price=${this.price}&limit=10`;
       const response = await axios.get(apiUrl);
 
       this.products = response.data.results.map((item: any) => {
@@ -42,7 +44,7 @@ export class SearchResults {
         );
       });
       const sorts = [response.data.sort, ...response.data.available_sorts] 
-      this.availableSort = sorts.map((item: any, index:number)=>{
+      this.availableSort = sorts.map((item: any)=>{
         const active = item.id === response.data.sort.id
         return new AvailableSort(
             item.id,
@@ -50,7 +52,15 @@ export class SearchResults {
             active
         );
       })
-      
+      const available_filters = response.data.available_filters.length > 0 ? response.data.available_filters.filter((filter:any) => filter.id === 'price')[0].values : []
+      this.filterByPrice = available_filters
+        .map((item: any)=>{
+          return new FilterByPrice(
+            item.id,
+            item.name,
+            item.results
+          )
+        })
 
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -63,5 +73,9 @@ export class SearchResults {
 
   getAvailableSorts(){
     return this.availableSort;
+  }
+
+  getFilterByPrice(){
+    return this.filterByPrice;
   }
 }

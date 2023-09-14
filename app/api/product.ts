@@ -28,3 +28,11 @@ export class AvailableSort {
         public active: boolean
     ){}  
 }
+
+export class FilterByPrice {
+  constructor(
+      public id: string,
+      public name: string,
+      public results: number
+  ){}  
+}
